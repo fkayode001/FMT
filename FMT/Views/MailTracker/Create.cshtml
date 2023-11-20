@@ -1,0 +1,89 @@
+﻿@model FMT.Models.MailTracker
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<section class="forms-section">
+    <!-- Forms-3 -->
+    <div class="outer-w3-agile mt-3">
+        <h4 class="tittle-w3-agileits mb-4">Add Tracker Info</h4>
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-6">
+                <label asp-for="ReferenceNo"></label>
+                <input asp-for="ReferenceNo" class="form-control" placeholder="FRSC/123/" required>
+                <span asp-validation-for="ReferenceNo" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Subject"></label>
+                <input asp-for="Subject" class="form-control" placeholder="Enter Mail Subject" required>
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="SignedBy"></label>
+                <input asp-for="SignedBy" class="form-control" placeholder="Enter the mail Signatory Name" required>
+                <span asp-validation-for="SignedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Sender"></label>
+                <input asp-for="Sender" class="form-control" placeholder="Enter Sender's Name" required>
+                <span asp-validation-for="Sender" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="DocumentDate"></label>
+                <input asp-for="DocumentDate" class="form-control" required>
+                <span asp-validation-for="DocumentDate" class="text-danger"></span>
+            </div>
+            @* <div class="form-group col-md-6">
+                <label asp-for="DateRecieved"></label>
+                <input asp-for="DateRecieved" class="form-control" required>
+                <span asp-validation-for="DateRecieved" class="text-danger"></span>
+            </div> *@
+            <div class="form-group col-md-6">
+                <label asp-for="DocumentId"></label>
+                <select asp-for="DocumentId" class="form-control" asp-items="ViewBag.Documents">
+                    <option value="">--Select Document Type--</option>
+                </select>
+                <span asp-validation-for="DocumentId" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="NextActionBy"></label>
+                <input asp-for="NextActionBy" class="form-control" placeholder="Next Action By" required>
+                <span asp-validation-for="NextActionBy" class="text-danger"></span>
+            </div>
+
+            @* <div class="form-group">
+                <label asp-for="DateEntered" class="control-label"></label>
+                <input asp-for="DateEntered" class="form-control" />
+                <span asp-validation-for="DateEntered" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnteredBy" class="control-label"></label>
+                <input asp-for="EnteredBy" class="form-control" />
+                <span asp-validation-for="EnteredBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinutedTo" class="control-label"></label>
+                <input asp-for="MinutedTo" class="form-control" />
+                <span asp-validation-for="MinutedTo" class="text-danger"></span>
+            </div> *@
+
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </form>
+        <hr />
+        <div>
+            <a asp-action="Index"> << Back to List of Trackers</a>
+        </div>
+    </div>
+    <!--// Forms-3 -->
+
+</section>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

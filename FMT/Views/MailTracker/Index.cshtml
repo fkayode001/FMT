@@ -1,0 +1,43 @@
+﻿@model IEnumerable<FMT.Models.MailTracker>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<div class="container-fluid">
+
+    <div class="outer-w3-agile mt-3">
+        <h4 class="tittle-w3-agileits mb-4">Mail Tracker</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.ReferenceNo)
+                    </th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.Subject)</th>
+                    <th scope="col"> @Html.DisplayNameFor(model => model.Sender)</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>@Html.DisplayFor(modelItem => item.ReferenceNo)</th>
+                        <td> @Html.DisplayFor(modelItem => item.Subject)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Sender)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
