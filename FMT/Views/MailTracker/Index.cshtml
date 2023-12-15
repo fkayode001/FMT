@@ -15,6 +15,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">@Html.DisplayNameFor(model => model.Id)</th>
                     <th scope="col">
                         @Html.DisplayNameFor(model => model.ReferenceNo)
                     </th>
@@ -27,6 +28,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <th>@Html.DisplayFor(modelItem => item.Id)</th>
                         <th>@Html.DisplayFor(modelItem => item.ReferenceNo)</th>
                         <td> @Html.DisplayFor(modelItem => item.Subject)</td>
                         <td>@Html.DisplayFor(modelItem => item.Sender)</td>
