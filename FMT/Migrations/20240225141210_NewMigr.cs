@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FMT.Migrations
 {
     /// <inheritdoc />
-    public partial class NewEntityMigration : Migration
+    public partial class NewMigr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,20 @@ namespace FMT.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DepartmentCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,6 +197,7 @@ namespace FMT.Migrations
                     DateRecieved = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DocumentId = table.Column<int>(type: "int", nullable: false),
                     NextActionBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     DateEntered = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EnteredBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MinutedTo = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -190,6 +205,12 @@ namespace FMT.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MailTrackers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MailTrackers_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MailTrackers_Documents_DocumentId",
                         column: x => x.DocumentId,
@@ -238,6 +259,11 @@ namespace FMT.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MailTrackers_DepartmentId",
+                table: "MailTrackers",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MailTrackers_DocumentId",
                 table: "MailTrackers",
                 column: "DocumentId");
@@ -269,6 +295,9 @@ namespace FMT.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Documents");

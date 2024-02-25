@@ -17,6 +17,9 @@ namespace FMT.Models
         public virtual Document Documents { get; set; }
         [DisplayName("DocumentType")]
         public int DocumentId { get; set; }
+        public virtual Department Departments { get; set; }
+        [DisplayName("Minuted To")]
+        public int DepartmentId { get; set; }
         public string NextActionBy { get; set; }
         public DateTime? DateEntered { get; set; }
         public string? EnteredBy { get; set; }

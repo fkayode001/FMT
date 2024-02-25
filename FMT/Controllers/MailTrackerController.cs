@@ -25,6 +25,7 @@ namespace FMT.Controllers
         public IActionResult Create()
         {
             ViewBag.Documents = new SelectList(_db.Documents, "Id", "DocumentType");
+            ViewBag.Department = new SelectList(_db.Departments, "Id", "DepartmentName");
             return View();
 
         }
@@ -37,6 +38,7 @@ namespace FMT.Controllers
             {
                 TempData["error"] = "Name field is required";
                 ViewBag.Documents = new SelectList(_db.Documents, "Id", "DocumentType", mail.DocumentId);
+                ViewBag.Department = new SelectList(_db.Departments, "Id", "DepartmentName", mail.DepartmentId);
                 return View(mail);
             }
             _db.MailTrackers.Add(mail);
@@ -59,6 +61,7 @@ namespace FMT.Controllers
             }
 
             ViewBag.Documents = new SelectList(_db.Documents, "Id", "DocumentType", mail.DocumentId);
+            ViewBag.Department = new SelectList(_db.Departments, "Id", "DepartmentName");
             return View(mail);
         }
 
@@ -75,6 +78,7 @@ namespace FMT.Controllers
                 _db.SaveChanges();
                 TempData["success"] = "Mail Register Updated Succesfully";
                 ViewBag.Documents = new SelectList(_db.Documents, "Id", "DocumentType", mail.DocumentId);
+                ViewBag.Department = new SelectList(_db.Departments, "Id", "DepartmentName", mail.DepartmentId);
                 return RedirectToAction(nameof(Index));
             }
             _db.MailTrackers.Update(mail);
@@ -96,6 +100,7 @@ namespace FMT.Controllers
                 return NotFound();
             }
             ViewBag.Documents = new SelectList(_db.Documents, "Id", "DocumentType", mail.DocumentId);
+            ViewBag.Department = new SelectList(_db.Departments, "Id", "DepartmentName", mail.DepartmentId);
 
             return View(mail);
         }

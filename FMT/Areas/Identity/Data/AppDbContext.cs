@@ -16,6 +16,7 @@ public class AppDbContext : IdentityDbContext<User>
     }
     public DbSet<MailTracker> MailTrackers { get; set; }
     public DbSet<Document> Documents { get; set; }
+    public DbSet<Department> Departments { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

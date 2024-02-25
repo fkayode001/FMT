@@ -87,6 +87,27 @@ namespace FMT.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("FMT.Models.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DepartmentCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DepartmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("FMT.Models.Document", b =>
                 {
                     b.Property<int>("Id")
@@ -117,6 +138,9 @@ namespace FMT.Migrations
 
                     b.Property<DateTime>("DateRecieved")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DocumentDate")
                         .HasColumnType("datetime2");
@@ -151,6 +175,8 @@ namespace FMT.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("DocumentId");
 
@@ -296,11 +322,19 @@ namespace FMT.Migrations
 
             modelBuilder.Entity("FMT.Models.MailTracker", b =>
                 {
+                    b.HasOne("FMT.Models.Department", "Departments")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FMT.Models.Document", "Documents")
                         .WithMany()
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Departments");
 
                     b.Navigation("Documents");
                 });

@@ -12,6 +12,11 @@
 
     <div class="outer-w3-agile mt-3">
         <h4 class="tittle-w3-agileits mb-4">Mail Tracker</h4>
+        <label for="filterDate">Filter by Date Recieved:</label>
+        <input type="date" id="filterDate" class="form-control mb-2" style="width: 30%;" />
+        <label for="filterReferenceNo">Filter by Reference No:</label>
+        <input type="text" id="filterReferenceNo" class="form-control mb-2" style="width: 30%;" />
+        
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -21,6 +26,7 @@
                     </th>
                     <th scope="col">@Html.DisplayNameFor(model => model.Subject)</th>
                     <th scope="col"> @Html.DisplayNameFor(model => model.Sender)</th>
+                    <th scope="col"> @Html.DisplayNameFor(model => model.DateRecieved)</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -28,14 +34,15 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <th>@Html.DisplayFor(modelItem => item.Id)</th>
-                        <th>@Html.DisplayFor(modelItem => item.ReferenceNo)</th>
+                        <td class="Id-column">@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td class="referenceNo-column">@Html.DisplayFor(modelItem => item.ReferenceNo)</td>
                         <td> @Html.DisplayFor(modelItem => item.Subject)</td>
                         <td>@Html.DisplayFor(modelItem => item.Sender)</td>
+                        <td class="date-column">@Html.DisplayFor(modelItem => item.DateRecieved)</td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Edit" asp-route-id="@item.Id">Dispatch</a> |
                             <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            @* <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
                         </td>
                     </tr>
                 }
@@ -43,3 +50,38 @@
         </table>
     </div>
 </div>
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#filterDate, #filterReferenceNo, #filterId').on('input', function () {
+                var selectedDate = $('#filterDate').val();
+                var selectedReferenceNo = $('#filterReferenceNo').val();
+                
+
+                // Loop through each row in the table
+                $('tbody tr').each(function () {
+                    var rowDate = $(this).find('td.date-column').text();
+                    var rowReferenceNo = $(this).find('td.referenceNo-column').text();
+                    
+
+                    // Format the row date to match the input date format
+                    var formattedRowDate = new Date(rowDate).toISOString().split('T')[0];
+
+                    // Check if the row matches both selected date and referenceNo or no filters are applied
+                    var isDateMatch = formattedRowDate === selectedDate || selectedDate === '';
+                    var isReferenceNoMatch = rowReferenceNo.includes(selectedReferenceNo) || selectedReferenceNo === '';
+                    
+
+                    // Show the row if both conditions are met
+                    if (isDateMatch && isReferenceNoMatch) {
+                        $(this).show();
+                    } else {
+                        // Hide the row if the conditions are not met
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
+}
